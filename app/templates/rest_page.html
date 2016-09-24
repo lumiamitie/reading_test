@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="panel panel-default">
+  	<div class="panel-body">
+	  	<h1>휴식</h1>
+	  	
+	  	<p>3개의 페이지 모드 지문을 모두 푸셨습니다.</p>
+		<p>60초의 휴식 후 3개의 지문을 스크롤 모드로 읽고 문제를 푸시면 됩니다.</p>
+		<p><b>시작하기</b> 버튼을 누르시면 바로 시작합니다.</p>
+
+		<button type="button" class="btn btn-primary" onclick="location.href='{{ next_page }}'">시작하기</button>
+
+	</div>
+</div>
+{% endblock %}
