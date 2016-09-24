@@ -20,8 +20,12 @@
 			<br />
 		    <p><button type="button" class="btn btn-default btn-lg" onclick="location.href='exp1/intro'">실험1</button></p>
 		    <p><button type="button" class="btn btn-default btn-lg" onclick="location.href='exp2/intro'">실험2</button></p>
-		    <p><button type="button" class="btn btn-default btn-lg" onclick="location.href='{{ url_for('exp3_intro') }}'">실험3</button></p>
-		    <p><button type="button" class="btn btn-default btn-lg">실험4</button></p>
+		    <p>
+		    	<button type="button" class="btn btn-default btn-lg" onclick="location.href='{{ url_for('exp3_intro') }}'">실험3</button>
+		    </p>
+		    <p>
+		    	<button type="button" class="btn btn-default btn-lg" onclick="location.href='{{ url_for('exp4_intro') }}'">실험4</button>
+		    </p>
 		</div>
 	</div>
 {% endblock %}
