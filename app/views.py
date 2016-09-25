@@ -249,6 +249,10 @@ def exp4_outro():
 # 설문 페이지
 @app.route('/survey', methods = ['GET', 'POST'])
 def survey():
+    # outro 페이지에서 실험번호를 받아온다
+    # 혹시라도 값이 없을경우에는 빈칸으로
+    test_no = request.args.get('test_no', '')
+
     if request.method == 'POST':
         print(request.form)
         # 설문이 완료되면 완료페이지로 보낸다

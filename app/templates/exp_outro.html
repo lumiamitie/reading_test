@@ -11,7 +11,8 @@
 		
 		<br />
 		<p>
-			<button type="button" class="btn btn-primary" onclick="location.href='/survey'">설문하기</button>
+			{# <button type="button" class="btn btn-primary" onclick="location.href='{{ url_for('survey', test_no=test_no) }}'">설문하기</button> #}
+			<a class="btn btn-primary" href="{{ url_for('survey', test_no=test_no) }}" role="button">설문하기</a>
 		</p>
 	</div>
 </div>
