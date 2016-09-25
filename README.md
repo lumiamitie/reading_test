@@ -39,8 +39,9 @@ CREATE TABLE `time_log` (
   `uuid` varchar(40) NOT NULL,
   `exp_id` varchar(10) NOT NULL,
   `test_type` varchar(10) NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL,
+  `question` varchar(10) NOT NULL,
+  `category` varchar(10) NOT NULL,
+  `time` datetime NOT NULL,
   `is_real_test` char(1) NOT NULL
 ) DEFAULT CHARSET=utf8;
 

@@ -14,8 +14,52 @@ def current_time():
 #     g.db = MySQLdb.connect(passwd="minho1234", db="reading_test", charset='utf8',
 #                            cursorclass=MySQLdb.cursors.DictCursor)
 
+def insert_answer(dict_values):
+    query = '''INSERT INTO answer_log (uuid, exp_id, test_type, question, answer_value, is_real_test)
+               VALUES ('{uuid}', '{exp_id}', '{test_type}', '{question}', {answer_value}, '{is_real}');'''
+    return query.format(uuid=dict_values['uuid'],
+                        exp_id=dict_values['exp_id'],
+                        test_type=dict_values['test_type'],
+                        question=dict_values['question'],
+                        answer_value=dict_values['answer_value'],
+                        is_real=dict_values['is_real'])
+
+def insert_time(dict_values):
+    query = '''INSERT INTO time_log (uuid, exp_id, test_type, question, category, time, is_real_test)
+               VALUES ('{uuid}', '{exp_id}', '{test_type}', '{question}', '{category}', '{time}', '{is_real}');'''
+    return query.format(uuid=dict_values['uuid'],
+                        exp_id=dict_values['exp_id'],
+                        test_type=dict_values['test_type'],
+                        question=dict_values['question'],
+                        category=dict_values['category'],
+                        time=dict_values['time'],
+                        is_real=dict_values['is_real'])
+
+def insert_survey(dict_values):
+    query = '''INSERT INTO time_log (uuid, exp_id, survey01, survey02, survey03, survey04, survey05, survey06, end_time, is_real_test)
+               VALUES ('{uuid}', '{exp_id}', '{s01}', '{s02}', '{s03}', '{s04}', '{s05}', {s06}, '{end_time}', '{is_real}');'''
+    return query.format(uuid=dict_values['uuid'],
+                        exp_id=dict_values['exp_id'],
+                        s01=dict_values['s01'],
+                        s02=dict_values['s02'],
+                        s03=dict_values['s03'],
+                        s04=dict_values['s04'],
+                        s05=dict_values['s05'],
+                        s06=dict_values['s06'],
+                        end_time=dict_values['end_time'],
+                        is_real=dict_values['is_real'])
+
+# 쿼리 날리기
+def send_query(con, query):
+    cs = con.cursor()
+    cs.execute(query)
+    con.commit()
+
 # 실제 테스트에서는 T로 변경하고 진행하자
 IS_REAL_TEST = 'F'
+
+
+
 
 @app.route('/')
 def index():
@@ -67,6 +111,14 @@ def exp1_a1_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             a1_1 = request.form['answer_a1_1']
             a1_2 = request.form['answer_a1_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a1_1', answer_value=int(a1_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a1_2', answer_value=int(a1_2))
+            print(data1)
+            print(data2)
+
             return redirect(url_for('exp1_a2_scroll'))
 
         return render_template('a1_scroll.html')
@@ -82,6 +134,14 @@ def exp1_a2_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             a2_1 = request.form['answer_a2_1']
             a2_2 = request.form['answer_a2_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a2_1', answer_value=int(a2_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a2_2', answer_value=int(a2_2))
+            print(data1)
+            print(data2)
+
             return redirect(url_for('exp1_a3_scroll'))
 
         return render_template('a2_scroll.html')
@@ -97,6 +157,14 @@ def exp1_a3_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             a3_1 = request.form['answer_a3_1']
             a3_2 = request.form['answer_a3_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a3_1', answer_value=int(a3_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a3_2', answer_value=int(a3_2))
+            print(data1)
+            print(data2)
+
             return redirect(url_for('exp1_rest'))
 
         return render_template('a3_scroll.html')
@@ -124,6 +192,13 @@ def exp1_b1_page():
         if request.method == 'POST' and len(request.form) == 2:
             b1_1 = request.form['answer_b1_1']
             b1_2 = request.form['answer_b1_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b1_1', answer_value=int(b1_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b1_2', answer_value=int(b1_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp1_b2_page'))
 
         return render_template('b1_page.html')
@@ -139,6 +214,13 @@ def exp1_b2_page():
         if request.method == 'POST' and len(request.form) == 2:
             b2_1 = request.form['answer_b2_1']
             b2_2 = request.form['answer_b2_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b2_1', answer_value=int(b2_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b2_2', answer_value=int(b2_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp1_b3_page'))
 
         return render_template('b2_page.html')
@@ -154,6 +236,13 @@ def exp1_b3_page():
         if request.method == 'POST' and len(request.form) == 2:
             b3_1 = request.form['answer_b3_1']
             b3_2 = request.form['answer_b3_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b3_1', answer_value=int(b3_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b3_2', answer_value=int(b3_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp1_outro'))
 
         return render_template('b3_page.html')
@@ -194,6 +283,13 @@ def exp2_a1_page():
         if request.method == 'POST' and len(request.form) == 2:
             a1_1 = request.form['answer_a1_1']
             a1_2 = request.form['answer_a1_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a1_1', answer_value=int(a1_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a1_2', answer_value=int(a1_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp2_a2_page'))
 
         return render_template('a1_page.html')
@@ -209,6 +305,13 @@ def exp2_a2_page():
         if request.method == 'POST' and len(request.form) == 2:
             a2_1 = request.form['answer_a2_1']
             a2_2 = request.form['answer_a2_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a2_1', answer_value=int(a2_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a2_2', answer_value=int(a2_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp2_a3_page'))
 
         return render_template('a2_page.html')
@@ -224,6 +327,13 @@ def exp2_a3_page():
         if request.method == 'POST' and len(request.form) == 2:
             a3_1 = request.form['answer_a3_1']
             a3_2 = request.form['answer_a3_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a3_1', answer_value=int(a3_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a3_2', answer_value=int(a3_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp2_rest'))
 
         return render_template('a3_page.html')
@@ -251,6 +361,13 @@ def exp2_b1_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             b1_1 = request.form['answer_b1_1']
             b1_2 = request.form['answer_b1_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b1_1', answer_value=int(b1_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b1_2', answer_value=int(b1_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp2_b2_scroll'))
 
         return render_template('b1_scroll.html')
@@ -266,6 +383,13 @@ def exp2_b2_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             b2_1 = request.form['answer_b2_1']
             b2_2 = request.form['answer_b2_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b2_1', answer_value=int(b2_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b2_2', answer_value=int(b2_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp2_b3_scroll'))
 
         return render_template('b2_scroll.html')
@@ -281,6 +405,13 @@ def exp2_b3_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             b3_1 = request.form['answer_b3_1']
             b3_2 = request.form['answer_b3_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b3_1', answer_value=int(b3_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp2', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b3_2', answer_value=int(b3_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp2_outro'))
 
         return render_template('b3_scroll.html')
@@ -324,6 +455,13 @@ def exp3_b1_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             b1_1 = request.form['answer_b1_1']
             b1_2 = request.form['answer_b1_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b1_1', answer_value=int(b1_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b1_2', answer_value=int(b1_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp3_b2_scroll'))
 
         return render_template('b1_scroll.html')
@@ -339,6 +477,13 @@ def exp3_b2_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             b2_1 = request.form['answer_b2_1']
             b2_2 = request.form['answer_b2_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b2_1', answer_value=int(b2_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b2_2', answer_value=int(b2_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp3_b3_scroll'))
 
         return render_template('b2_scroll.html')
@@ -354,6 +499,13 @@ def exp3_b3_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             b3_1 = request.form['answer_b3_1']
             b3_2 = request.form['answer_b3_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b3_1', answer_value=int(b3_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='b3_2', answer_value=int(b3_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp3_rest'))
 
         return render_template('b3_scroll.html')
@@ -384,6 +536,13 @@ def exp3_a1_page():
         if request.method == 'POST' and len(request.form) == 2:
             a1_1 = request.form['answer_a1_1']
             a1_2 = request.form['answer_a1_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a1_1', answer_value=int(a1_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a1_2', answer_value=int(a1_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp3_a2_page'))
         
         return render_template('a1_page.html')
@@ -399,6 +558,13 @@ def exp3_a2_page():
         if request.method == 'POST' and len(request.form) == 2:
             a2_1 = request.form['answer_a2_1']
             a2_2 = request.form['answer_a2_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a2_1', answer_value=int(a2_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a2_2', answer_value=int(a2_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp3_a3_page'))
         
         return render_template('a2_page.html')
@@ -414,6 +580,13 @@ def exp3_a3_page():
         if request.method == 'POST' and len(request.form) == 2:
             a3_1 = request.form['answer_a3_1']
             a3_2 = request.form['answer_a3_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a3_1', answer_value=int(a3_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp3', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='a3_2', answer_value=int(a3_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp3_outro'))
 
         return render_template('a3_page.html')
@@ -458,6 +631,13 @@ def exp4_b1_page():
         if request.method == 'POST' and len(request.form) == 2:
             b1_1 = request.form['answer_b1_1']
             b1_2 = request.form['answer_b1_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b1_1', answer_value=int(b1_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b1_2', answer_value=int(b1_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp4_b2_page'))
 
         return render_template('b1_page.html')
@@ -476,6 +656,13 @@ def exp4_b2_page():
         if request.method == 'POST' and len(request.form) == 2:
             b2_1 = request.form['answer_b2_1']
             b2_2 = request.form['answer_b2_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b2_1', answer_value=int(b2_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b2_2', answer_value=int(b2_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp4_b3_page'))
 
         return render_template('b2_page.html')
@@ -491,6 +678,13 @@ def exp4_b3_page():
         if request.method == 'POST' and len(request.form) == 2:
             b3_1 = request.form['answer_b3_1']
             b3_2 = request.form['answer_b3_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b3_1', answer_value=int(b3_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'page', is_real = IS_REAL_TEST,
+                        question='b3_2', answer_value=int(b3_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp4_rest'))
 
         return render_template('b3_page.html')
@@ -519,6 +713,13 @@ def exp4_a1_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             a1_1 = request.form['answer_a1_1']
             a1_2 = request.form['answer_a1_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a1_1', answer_value=int(a1_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a1_2', answer_value=int(a1_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp4_a2_scroll'))
 
         return render_template('a1_scroll.html')
@@ -534,6 +735,13 @@ def exp4_a2_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             a2_1 = request.form['answer_a2_1']
             a2_2 = request.form['answer_a2_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a2_1', answer_value=int(a2_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a2_2', answer_value=int(a2_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp4_a3_scroll'))
 
         return render_template('a2_scroll.html')
@@ -549,6 +757,13 @@ def exp4_a3_scroll():
         if request.method == 'POST' and len(request.form) == 2:
             a3_1 = request.form['answer_a3_1']
             a3_2 = request.form['answer_a3_2']
+
+            data1 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a3_1', answer_value=int(a3_1))
+            data2 = dict(uuid = session['uuid'], exp_id = 'exp4', test_type = 'scroll', is_real = IS_REAL_TEST,
+                        question='a3_2', answer_value=int(a3_2))
+            print(data1)
+            print(data2)
             return redirect(url_for('exp4_outro'))
 
         return render_template('a3_scroll.html')
