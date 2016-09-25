@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from app import app
 
 @app.route('/')
@@ -238,8 +238,22 @@ def exp4_a3_scroll():
     next_page = '/exp4/outro'
     return render_template('a3_scroll.html', next_page=next_page)
 
-# 실험3 outro
+# 실험4 outro
 @app.route('/exp4/outro')
 def exp4_outro():
     test_no = 4
     return render_template('exp_outro.html', test_no=test_no)
+
+
+
+# 설문 페이지
+@app.route('/survey', methods = ['GET', 'POST'])
+def survey():
+    if request.method == 'POST':
+        return redirect(url_for('complete'))
+    return render_template('survey.html')
+
+# 실험종료 페이지
+@app.route('/complete')
+def complete():
+    return render_template('complete.html')

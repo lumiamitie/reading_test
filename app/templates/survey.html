@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>설문</h1>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <form method="POST">
+            <p><b>1. 당신은 페이지 모드(지문을 의미 단위로 분할하여 페이지로 나눠 옆으로 밀어서 보는 방식)가 얼마나 마음에 드시나요?</b></p>
+
+            <label class="radio-inline">
+              <input type="radio" name="survey01" id="surveyRadio01-1" value="1"> 1
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="survey01" id="surveyRadio01-2" value="2"> 2
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="survey01" id="surveyRadio01-3" value="3"> 3
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="survey01" id="surveyRadio01-4" value="4"> 4
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="survey01" id="surveyRadio01-5" value="5"> 5
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="survey01" id="surveyRadio01-6" value="6"> 6
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="survey01" id="surveyRadio01-7" value="7"> 7
+            </label>
+            <p>1: 전혀 마음에 들지 않는다<br />
+            4: 보통이다<br />
+            7: 아주 마음에 든다</p>
+
+
+            <br />
+            <br />
+
+            <p><b>2. 당신은 스크롤 모드(지문을 한 페이지에 길게 쭉 늘어뜨려 스크롤로 내리면서 보는 방식)이 얼마나 마음에 드시나요?</b></p>
+                <label class="radio-inline">
+                  <input type="radio" name="survey02" id="surveyRadio02-1" value="1"> 1
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="survey02" id="surveyRadio02-2" value="2"> 2
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="survey02" id="surveyRadio02-3" value="3"> 3
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="survey02" id="surveyRadio02-4" value="4"> 4
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="survey02" id="surveyRadio02-5" value="5"> 5
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="survey02" id="surveyRadio02-6" value="6"> 6
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="survey02" id="surveyRadio02-7" value="7"> 7
+                </label>
+                <p>1: 전혀 마음에 들지 않는다<br />
+                4: 보통이다<br />
+                7: 아주 마음에 든다</p>
+
+            <br />
+            <br />
+
+            <p><b>3. 1,2 번에 그렇게 응답한 이유는 무엇인가요? 자유롭게 서술해주세요.</b></p>
+                <textarea class="form-control" rows="3" name="survey03"></textarea>
+
+            <br />
+            <br />
+
+            <p><b>4. 평소에 스마트폰으로 긴 글(신문 기사 뉴스 이상)를 얼마나 자주 읽으시나요?</b></p>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="survey04" id="surveyRadio04-1" value="1">
+                    거의 읽지 않는다
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="survey04" id="surveyRadio04-2" value="2">
+                    한 달에 1~3번
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="survey04" id="surveyRadio04-3" value="3">
+                    일주일에 1~3번
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="survey04" id="surveyRadio04-4" value="4">
+                    일주일에 4번 이상
+                  </label>
+                </div>
+
+            <br />
+            <br />
+
+            <p><b>5. 당신의 성별은 무엇입니까?</b></p>
+                <label class="radio-inline">
+                  <input type="radio" name="survey05" id="surveyRadio05-1" value="M"> 남
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="survey05" id="surveyRadio05-2" value="W"> 여
+                </label>
+
+            <br />
+            <br />
+
+            <p><b>6. 당신의 나이는 몇 세 입니까?</b></p>
+                <input type="number" class="form-control" placeholder="만 ___세" name="survey06">
+
+            <br />
+            <br />
+
+            <button type="submit" class="btn btn-primary">제출하기</button>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
