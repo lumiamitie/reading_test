@@ -28,10 +28,7 @@ def practice_finished():
     return redirect(url_for('index'))
 
 # 실험1
-# @app.route('/exp1/intro')
-# def exp1_intro():
-#     return render_template('exp1_intro.html')
-
+# intro 페이지
 @app.route('/exp1/intro')
 def exp1_intro():
     test_no = 1
@@ -39,42 +36,79 @@ def exp1_intro():
     next_page = '/exp1/a1/scroll'
     return render_template('exp_intro.html', test_no=test_no, test_type=test_type, next_page=next_page)
 
-@app.route('/exp1/a1/scroll')
+
+@app.route('/exp1/a1/scroll', methods=['GET', 'POST'])
 def exp1_a1_scroll():
-    next_page = '/exp1/a2/scroll'
-    return render_template('a1_scroll.html', next_page=next_page)
 
-@app.route('/exp1/a2/scroll')
+    if request.method == 'POST' and len(request.form) == 2:
+        a1_1 = request.form['answer_a1_1']
+        a1_2 = request.form['answer_a1_2']
+        return redirect(url_for('exp1_a2_scroll'))
+
+    return render_template('a1_scroll.html')
+
+
+@app.route('/exp1/a2/scroll', methods=['GET', 'POST'])
 def exp1_a2_scroll():
-    next_page = '/exp1/a3/scroll'
-    return render_template('a2_scroll.html', next_page=next_page)
 
-@app.route('/exp1/a3/scroll')
+    if request.method == 'POST' and len(request.form) == 2:
+        a2_1 = request.form['answer_a2_1']
+        a2_2 = request.form['answer_a2_2']
+        return redirect(url_for('exp1_a3_scroll'))
+
+    return render_template('a2_scroll.html')
+
+
+@app.route('/exp1/a3/scroll', methods=['GET', 'POST'])
 def exp1_a3_scroll():
-    next_page = '/exp1/rest'
-    return render_template('a3_scroll.html', next_page=next_page)
+
+    if request.method == 'POST' and len(request.form) == 2:
+        a3_1 = request.form['answer_a3_1']
+        a3_2 = request.form['answer_a3_2']
+        return redirect(url_for('exp1_rest'))
+
+    return render_template('a3_scroll.html')
+
 
 @app.route('/exp1/rest')
 def exp1_rest():
-    # return render_template('rest_scroll.html')
     test_type = ['스크롤', '페이지']
     next_page = '/exp1/b1/page'
     return render_template('rest.html', test_type=test_type, next_page=next_page)
 
-@app.route('/exp1/b1/page')
+
+@app.route('/exp1/b1/page', methods=['GET', 'POST'])
 def exp1_b1_page():
-    next_page = '/exp1/b2/page'
-    return render_template('b1_page.html', next_page=next_page)
 
-@app.route('/exp1/b2/page')
+    if request.method == 'POST' and len(request.form) == 2:
+        b1_1 = request.form['answer_b1_1']
+        b1_2 = request.form['answer_b1_2']
+        return redirect(url_for('exp1_b2_page'))
+
+    return render_template('b1_page.html')
+
+
+@app.route('/exp1/b2/page', methods=['GET', 'POST'])
 def exp1_b2_page():
-    next_page = '/exp1/b3/page'
-    return render_template('b2_page.html', next_page=next_page)
 
-@app.route('/exp1/b3/page')
+    if request.method == 'POST' and len(request.form) == 2:
+        b2_1 = request.form['answer_b2_1']
+        b2_2 = request.form['answer_b2_2']
+        return redirect(url_for('exp1_b3_page'))
+
+    return render_template('b2_page.html')
+
+
+@app.route('/exp1/b3/page', methods=['GET', 'POST'])
 def exp1_b3_page():
-    next_page = '/exp1/outro'
-    return render_template('b3_page.html', next_page=next_page)
+
+    if request.method == 'POST' and len(request.form) == 2:
+        b3_1 = request.form['answer_b3_1']
+        b3_2 = request.form['answer_b3_2']
+        return redirect(url_for('exp1_outro'))
+
+    return render_template('b3_page.html')
+
 
 @app.route('/exp1/outro')
 def exp1_outro():
@@ -83,10 +117,6 @@ def exp1_outro():
 
 
 # 실험2
-# @app.route('/exp2/intro')
-# def exp2_intro():
-#     return render_template('exp2_intro.html')
-
 @app.route('/exp2/intro')
 def exp2_intro():
     test_no = 2
@@ -94,47 +124,86 @@ def exp2_intro():
     next_page = '/exp2/a1/page'
     return render_template('exp_intro.html', test_no=test_no, test_type=test_type, next_page=next_page)
 
-@app.route('/exp2/a1/page')
+
+@app.route('/exp2/a1/page', methods=['GET', 'POST'])
 def exp2_a1_page():
-    next_page = '/exp2/a2/page'
-    return render_template('a1_page.html', next_page=next_page)
 
-@app.route('/exp2/a2/page')
+    if request.method == 'POST' and len(request.form) == 2:
+        a1_1 = request.form['answer_a1_1']
+        a1_2 = request.form['answer_a1_2']
+        return redirect(url_for('exp2_a2_page'))
+
+    return render_template('a1_page.html')
+
+
+@app.route('/exp2/a2/page', methods=['GET', 'POST'])
 def exp2_a2_page():
-    next_page = '/exp2/a3/page'
-    return render_template('a2_page.html', next_page=next_page)
 
-@app.route('/exp2/a3/page')
+    if request.method == 'POST' and len(request.form) == 2:
+        a2_1 = request.form['answer_a2_1']
+        a2_2 = request.form['answer_a2_2']
+        return redirect(url_for('exp2_a3_page'))
+
+    return render_template('a2_page.html')
+
+
+@app.route('/exp2/a3/page', methods=['GET', 'POST'])
 def exp2_a3_page():
-    next_page = '/exp2/rest'
-    return render_template('a3_page.html', next_page=next_page)
+
+    if request.method == 'POST' and len(request.form) == 2:
+        a3_1 = request.form['answer_a3_1']
+        a3_2 = request.form['answer_a3_2']
+        return redirect(url_for('exp2_rest'))
+
+    return render_template('a3_page.html')
+
 
 @app.route('/exp2/rest')
 def exp2_rest():
     test_type = ['페이지', '스크롤']
     next_page = '/exp2/b1/scroll'
-    # return render_template('rest_page.html', next_page=next_page)
     return render_template('rest.html', test_type=test_type, next_page=next_page)
 
-@app.route('/exp2/b1/scroll')
+
+@app.route('/exp2/b1/scroll', methods=['GET', 'POST'])
 def exp2_b1_scroll():
-    next_page = '/exp2/b2/scroll'
-    return render_template('b1_scroll.html', next_page=next_page)
 
-@app.route('/exp2/b2/scroll')
+    if request.method == 'POST' and len(request.form) == 2:
+        b1_1 = request.form['answer_b1_1']
+        b1_2 = request.form['answer_b1_2']
+        return redirect(url_for('exp2_b2_scroll'))
+
+    return render_template('b1_scroll.html')
+
+
+@app.route('/exp2/b2/scroll', methods=['GET', 'POST'])
 def exp2_b2_scroll():
-    next_page = '/exp2/b3/scroll'
-    return render_template('b2_scroll.html', next_page=next_page)
 
-@app.route('/exp2/b3/scroll')
+    if request.method == 'POST' and len(request.form) == 2:
+        b2_1 = request.form['answer_b2_1']
+        b2_2 = request.form['answer_b2_2']
+        return redirect(url_for('exp2_b3_scroll'))
+
+    return render_template('b2_scroll.html')
+
+
+@app.route('/exp2/b3/scroll', methods=['GET', 'POST'])
 def exp2_b3_scroll():
-    next_page = '/exp2/outro'
-    return render_template('b3_scroll.html', next_page=next_page)
+
+    if request.method == 'POST' and len(request.form) == 2:
+        b3_1 = request.form['answer_b3_1']
+        b3_2 = request.form['answer_b3_2']
+        return redirect(url_for('exp2_outro'))
+
+    return render_template('b3_scroll.html')
+
 
 @app.route('/exp2/outro')
 def exp2_outro():
     test_no = 2
     return render_template('exp_outro.html', test_no=test_no)
+
+
 
 
 # 실험3
@@ -145,21 +214,40 @@ def exp3_intro():
     next_page = '/exp3/b1/scroll'
     return render_template('exp_intro.html', test_no=test_no, test_type=test_type, next_page=next_page)
 
+
 # 지문 B (스크롤)
-@app.route('/exp3/b1/scroll')
+@app.route('/exp3/b1/scroll', methods=['GET', 'POST'])
 def exp3_b1_scroll():
-    next_page = '/exp3/b2/scroll'
-    return render_template('b1_scroll.html', next_page=next_page)
 
-@app.route('/exp3/b2/scroll')
+    if request.method == 'POST' and len(request.form) == 2:
+        b1_1 = request.form['answer_b1_1']
+        b1_2 = request.form['answer_b1_2']
+        return redirect(url_for('exp3_b2_scroll'))
+
+    return render_template('b1_scroll.html')
+
+
+@app.route('/exp3/b2/scroll', methods=['GET', 'POST'])
 def exp3_b2_scroll():
-    next_page = '/exp3/b3/scroll'
-    return render_template('b2_scroll.html', next_page=next_page)
 
-@app.route('/exp3/b3/scroll')
+    if request.method == 'POST' and len(request.form) == 2:
+        b2_1 = request.form['answer_b2_1']
+        b2_2 = request.form['answer_b2_2']
+        return redirect(url_for('exp3_b3_scroll'))
+
+    return render_template('b2_scroll.html')
+
+
+@app.route('/exp3/b3/scroll', methods=['GET', 'POST'])
 def exp3_b3_scroll():
-    next_page = '/exp3/rest'
-    return render_template('b3_scroll.html', next_page=next_page)
+
+    if request.method == 'POST' and len(request.form) == 2:
+        b3_1 = request.form['answer_b3_1']
+        b3_2 = request.form['answer_b3_2']
+        return redirect(url_for('exp3_rest'))
+
+    return render_template('b3_scroll.html')
+
 
 # 휴식
 @app.route('/exp3/rest')
@@ -168,21 +256,40 @@ def exp3_rest():
     next_page = '/exp3/a1/page'
     return render_template('rest.html', test_type=test_type, next_page=next_page)
 
+
 # 지문 A (페이지)
-@app.route('/exp3/a1/page')
-def exp3_a1_page():
-    next_page = '/exp3/a2/page'
-    return render_template('a1_page.html', next_page=next_page)
+@app.route('/exp3/a1/page', methods=['GET', 'POST'])
+def exp3_a1_page():    
+    # 정답을 둘 다 제출한 경우!
+    if request.method == 'POST' and len(request.form) == 2:
+        a1_1 = request.form['answer_a1_1']
+        a1_2 = request.form['answer_a1_2']
+        return redirect(url_for('exp3_a2_page'))
+    
+    return render_template('a1_page.html')
 
-@app.route('/exp3/a2/page')
+
+@app.route('/exp3/a2/page', methods=['GET', 'POST'])
 def exp3_a2_page():
-    next_page = '/exp3/a3/page'
-    return render_template('a2_page.html', next_page=next_page)
 
-@app.route('/exp3/a3/page')
+    if request.method == 'POST' and len(request.form) == 2:
+        a2_1 = request.form['answer_a2_1']
+        a2_2 = request.form['answer_a2_2']
+        return redirect(url_for('exp3_a3_page'))
+    
+    return render_template('a2_page.html')
+
+
+@app.route('/exp3/a3/page', methods=['GET', 'POST'])
 def exp3_a3_page():
-    next_page = '/exp3/outro'
-    return render_template('a3_page.html', next_page=next_page)
+
+    if request.method == 'POST' and len(request.form) == 2:
+        a3_1 = request.form['answer_a3_1']
+        a3_2 = request.form['answer_a3_2']
+        return redirect(url_for('exp3_outro'))
+
+    return render_template('a3_page.html')
+
 
 # 실험3 outro
 @app.route('/exp3/outro')
@@ -200,20 +307,39 @@ def exp4_intro():
     next_page = '/exp4/b1/page'
     return render_template('exp_intro.html', test_no=test_no, test_type=test_type, next_page=next_page)
 
-@app.route('/exp4/b1/page')
+
+@app.route('/exp4/b1/page', methods=['GET', 'POST'])
 def exp4_b1_page():
-    next_page = '/exp4/b2/page'
-    return render_template('b1_page.html', next_page=next_page)
 
-@app.route('/exp4/b2/page')
+    if request.method == 'POST' and len(request.form) == 2:
+        b1_1 = request.form['answer_b1_1']
+        b1_2 = request.form['answer_b1_2']
+        return redirect(url_for('exp4_b2_page'))
+
+    return render_template('b1_page.html')
+
+
+@app.route('/exp4/b2/page', methods=['GET', 'POST'])
 def exp4_b2_page():
-    next_page = '/exp4/b3/page'
-    return render_template('b2_page.html', next_page=next_page)
 
-@app.route('/exp4/b3/page')
+    if request.method == 'POST' and len(request.form) == 2:
+        b2_1 = request.form['answer_b2_1']
+        b2_2 = request.form['answer_b2_2']
+        return redirect(url_for('exp4_b3_page'))
+
+    return render_template('b2_page.html')
+
+
+@app.route('/exp4/b3/page', methods=['GET', 'POST'])
 def exp4_b3_page():
-    next_page = '/exp4/rest'
-    return render_template('b3_page.html', next_page=next_page)
+
+    if request.method == 'POST' and len(request.form) == 2:
+        b3_1 = request.form['answer_b3_1']
+        b3_2 = request.form['answer_b3_2']
+        return redirect(url_for('exp4_rest'))
+
+    return render_template('b3_page.html')
+
 
 # 휴식
 @app.route('/exp4/rest')
@@ -223,20 +349,36 @@ def exp4_rest():
     return render_template('rest.html', test_type=test_type, next_page=next_page)
 
 
-@app.route('/exp4/a1/scroll')
+@app.route('/exp4/a1/scroll', methods=['GET', 'POST'])
 def exp4_a1_scroll():
-    next_page = '/exp4/a2/scroll'
-    return render_template('a1_scroll.html', next_page=next_page)
 
-@app.route('/exp4/a2/scroll')
+    if request.method == 'POST' and len(request.form) == 2:
+        a1_1 = request.form['answer_a1_1']
+        a1_2 = request.form['answer_a1_2']
+        return redirect(url_for('exp4_a2_scroll'))
+
+    return render_template('a1_scroll.html')
+
+@app.route('/exp4/a2/scroll', methods=['GET', 'POST'])
 def exp4_a2_scroll():
-    next_page = '/exp4/a3/scroll'
-    return render_template('a2_scroll.html', next_page=next_page)
 
-@app.route('/exp4/a3/scroll')
+    if request.method == 'POST' and len(request.form) == 2:
+        a2_1 = request.form['answer_a2_1']
+        a2_2 = request.form['answer_a2_2']
+        return redirect(url_for('exp4_a3_scroll'))
+
+    return render_template('a2_scroll.html')
+
+@app.route('/exp4/a3/scroll', methods=['GET', 'POST'])
 def exp4_a3_scroll():
-    next_page = '/exp4/outro'
-    return render_template('a3_scroll.html', next_page=next_page)
+
+    if request.method == 'POST' and len(request.form) == 2:
+        a3_1 = request.form['answer_a3_1']
+        a3_2 = request.form['answer_a3_2']
+        return redirect(url_for('exp4_outro'))
+
+    return render_template('a3_scroll.html')
+
 
 # 실험4 outro
 @app.route('/exp4/outro')
