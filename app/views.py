@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from app import app
 
 @app.route('/')
@@ -250,7 +250,17 @@ def exp4_outro():
 @app.route('/survey', methods = ['GET', 'POST'])
 def survey():
     if request.method == 'POST':
-        return redirect(url_for('complete'))
+        print(request.form)
+        # 설문이 완료되면 완료페이지로 보낸다
+        if len(request.form) == 6:
+            return redirect(url_for('complete'))
+        # 텍스트박스는 항상 POST로 전달되는 것 같다
+        # 따라서 기본값으로 오는 경우에는 flash를 띄우지 않도록 한다
+        elif len(request.form) == 2 and request.form['survey03'] == '' and request.form['survey06'] == '':
+            pass
+        # 설문을 완료하지 않은 경우 메세지를 띄운다
+        else:
+            flash('모든 항목의 설문을 완료해주세요')
     return render_template('survey.html')
 
 # 실험종료 페이지
