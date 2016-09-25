@@ -1,14 +1,21 @@
-from flask import render_template, redirect, url_for, request, flash, session
+from flask import render_template, redirect, url_for, request, flash, session, g
 from app import app
 from uuid import uuid4
 import datetime
+# import MySQLdb
 
 # 현재 시각을 문자열로 반환
 def current_time():
     c_time = datetime.datetime.now()
     return c_time.strftime('%Y-%m-%d %H:%M:%S')
 
+# @app.before_request
+# def before_request():
+#     g.db = MySQLdb.connect(passwd="minho1234", db="reading_test", charset='utf8',
+#                            cursorclass=MySQLdb.cursors.DictCursor)
 
+# 실제 테스트에서는 T로 변경하고 진행하자
+IS_REAL_TEST = 'F'
 
 @app.route('/')
 def index():

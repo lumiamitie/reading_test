@@ -43,4 +43,17 @@ CREATE TABLE `time_log` (
   `end_time` datetime NOT NULL,
   `is_real_test` char(1) NOT NULL
 ) DEFAULT CHARSET=utf8;
+
+CREATE TABLE `survey` (
+  `uuid` varchar(40) NOT NULL,
+  `exp_id` varchar(10) NOT NULL,
+  `survey01` varchar(10) NOT NULL,
+  `survey02` varchar(10) NOT NULL,
+  `survey03` text NOT NULL,
+  `survey04` varchar(10) NOT NULL,
+  `survey05` varchar(10) NOT NULL,
+  `survey06` int(10) NOT NULL,
+  `end_time` datetime NOT NULL,
+  `is_real_test` char(1) NOT NULL
+) DEFAULT CHARSET=utf8;
 ```
