@@ -977,7 +977,6 @@ def survey():
                 try:
                     db_con = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
                     #send_query(insert_survey(data_survey))
-                    db_con.close()
 
                     cs = db_con.cursor()
                     cs.execute(insert_survey(data_survey))
