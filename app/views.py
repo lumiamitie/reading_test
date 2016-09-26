@@ -12,7 +12,7 @@ def current_time():
 import MySQLdb
 @app.before_request
 def before_request():
-    g.db = MySQLdb.connect(passwd="minho1234", db="reading_test", charset='utf8',
+    g.db = MySQLdb.connect(user="miika", passwd="minho1234", db="reading_test", charset='utf8',
                            cursorclass=MySQLdb.cursors.DictCursor)
 
 @app.teardown_request
@@ -181,7 +181,7 @@ def exp1_a3_scroll():
             data_et = dict(common_dict, question='a3', category='end', time=current_time())
             data1 = dict(common_dict, question='a3_1', answer_value=int(a3_1))
             data2 = dict(common_dict, question='a3_2', answer_value=int(a3_2))
-            
+
             send_query(query=insert_answer(data1))
             send_query(query=insert_answer(data2))
             send_query(query=insert_time(data_et))
