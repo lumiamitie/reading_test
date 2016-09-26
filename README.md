@@ -50,7 +50,7 @@ CREATE TABLE `survey` (
   `exp_id` varchar(10) NOT NULL,
   `survey01` varchar(10) NOT NULL,
   `survey02` varchar(10) NOT NULL,
-  `survey03` text NOT NULL,
+  `survey03` varchar(3000) NOT NULL,
   `survey04` varchar(10) NOT NULL,
   `survey05` varchar(10) NOT NULL,
   `survey06` int(10) NOT NULL,

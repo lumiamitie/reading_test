@@ -956,53 +956,93 @@ def exp4_outro():
 # 설문 페이지
 @app.route('/survey', methods = ['GET', 'POST'])
 def survey():
-    try:
-        print(session['uuid'])
+    # try:
+    #     print(session['uuid'])
 
-        # outro 페이지에서 실험번호를 받아온다
-        # 혹시라도 값이 없을경우에는 빈칸으로
-        test_no = request.args.get('test_no', '')
+    #     # outro 페이지에서 실험번호를 받아온다
+    #     # 혹시라도 값이 없을경우에는 빈칸으로
+    #     test_no = request.args.get('test_no', '')
 
-        if request.method == 'POST':
-            print(request.form)
-            # 설문이 완료되면 완료페이지로 보낸다
-            if len(request.form) == 6:
-                data_survey = dict(uuid = session['uuid'], exp_id = 'exp' + str(test_no), 
-                                   s01=request.form['survey01'], s02=request.form['survey02'], 
-                                   s03=request.form['survey03'], s04=request.form['survey04'], 
-                                   s05=request.form['survey05'], s06=request.form['survey06'],
-                                   end_time=current_time(), is_real=IS_REAL_TEST)
-                # 데이터 전송
-                # 여기만 쿼리가 안가서 컨넥션 한번 더 불러보자
-                #send_query(insert_survey(data_survey))
-                #try:
-                #print('prepare connections')
-                #db_con = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
+    #     if request.method == 'POST':
+    #         print(request.form)
+    #         # 설문이 완료되면 완료페이지로 보낸다
+    #         if len(request.form) == 6:
+    #             data_survey = dict(uuid = session['uuid'], exp_id = 'exp' + str(test_no), 
+    #                                s01=request.form['survey01'], s02=request.form['survey02'], 
+    #                                s03=request.form['survey03'], s04=request.form['survey04'], 
+    #                                s05=request.form['survey05'], s06=request.form['survey06'],
+    #                                end_time=current_time(), is_real=IS_REAL_TEST)
+    #             # 데이터 전송
+    #             # 여기만 쿼리가 안가서 컨넥션 한번 더 불러보자
+    #             #send_query(insert_survey(data_survey))
+    #             #try:
+    #             #print('prepare connections')
+    #             #db_con = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
 
-                print('prepare cursor')
-                #cs = db_con.cursor()
-                cs = g.db.cursor()
-                print('prepare query execution')
-                cs.execute(insert_survey(data_survey))
-                print('prepare commit')
-                #db_con.commit()
-                g.db.commit()
-                print('prepare conn close')
-                #db_con.close()
-                # except:
-                #     print(insert_survey(data_survey))
-                return redirect(url_for('complete'))
+    #             print('prepare cursor')
+    #             #cs = db_con.cursor()
+    #             cs = g.db.cursor()
+    #             print('prepare query execution')
+    #             cs.execute(insert_survey(data_survey))
+    #             print('prepare commit')
+    #             #db_con.commit()
+    #             g.db.commit()
+    #             print('prepare conn close')
+    #             #db_con.close()
+    #             # except:
+    #             #     print(insert_survey(data_survey))
+    #             return redirect(url_for('complete'))
 
-            # 텍스트박스는 항상 POST로 전달되는 것 같다
-            # 따라서 기본값으로 오는 경우에는 flash를 띄우지 않도록 한다
-            elif len(request.form) == 2 and request.form['survey03'] == '' and request.form['survey06'] == '':
-                pass
-            # 설문을 완료하지 않은 경우 메세지를 띄운다
-            else:
-                flash('모든 항목의 설문을 완료해주세요')
-        return render_template('survey.html')
-    except:
-        return redirect(url_for('index'))
+    #         # 텍스트박스는 항상 POST로 전달되는 것 같다
+    #         # 따라서 기본값으로 오는 경우에는 flash를 띄우지 않도록 한다
+    #         elif len(request.form) == 2 and request.form['survey03'] == '' and request.form['survey06'] == '':
+    #             pass
+    #         # 설문을 완료하지 않은 경우 메세지를 띄운다
+    #         else:
+    #             flash('모든 항목의 설문을 완료해주세요')
+    #     return render_template('survey.html')
+    # except:
+    #     return redirect(url_for('index'))
+    test_no = request.args.get('test_no', '')
+
+    if request.method == 'POST':
+        print(request.form)
+        # 설문이 완료되면 완료페이지로 보낸다
+        if len(request.form) == 6:
+            data_survey = dict(uuid = session['uuid'], exp_id = 'exp' + str(test_no), 
+                               s01=request.form['survey01'], s02=request.form['survey02'], 
+                               s03=request.form['survey03'], s04=request.form['survey04'], 
+                               s05=request.form['survey05'], s06=request.form['survey06'],
+                               end_time=current_time(), is_real=IS_REAL_TEST)
+            # 데이터 전송
+            # 여기만 쿼리가 안가서 컨넥션 한번 더 불러보자
+            #send_query(insert_survey(data_survey))
+            #try:
+            #print('prepare connections')
+            #db_con = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
+
+            print('prepare cursor')
+            #cs = db_con.cursor()
+            cs = g.db.cursor()
+            print('prepare query execution')
+            cs.execute(insert_survey(data_survey))
+            print('prepare commit')
+            #db_con.commit()
+            g.db.commit()
+            print('prepare conn close')
+            #db_con.close()
+            # except:
+            #     print(insert_survey(data_survey))
+            return redirect(url_for('complete'))
+
+        # 텍스트박스는 항상 POST로 전달되는 것 같다
+        # 따라서 기본값으로 오는 경우에는 flash를 띄우지 않도록 한다
+        elif len(request.form) == 2 and request.form['survey03'] == '' and request.form['survey06'] == '':
+            pass
+        # 설문을 완료하지 않은 경우 메세지를 띄운다
+        else:
+            flash('모든 항목의 설문을 완료해주세요')
+    return render_template('survey.html')
 
 
 # 실험종료 페이지
