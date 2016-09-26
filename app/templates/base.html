@@ -11,7 +11,13 @@
     {# <link href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"> #}
     <!-- 합쳐지고 최소화된 최신 CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
+    <script>
+        function bodyScrollTop(){
+            $('html, body').animate({
+                scrollTop: '0px'
+            }, 100);
+        }
+    </script>
     {% block extra_headers %}
     {% endblock %}
 
