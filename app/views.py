@@ -96,7 +96,8 @@ def get_time():
 
 
 def get_survey():
-    query = 'SELECT * FROM survey WHERE is_real_test = "F"'
+    query = '''SELECT exp_id, uuid, survey01, survey02, survey03, survey04, survey05, survey06
+               FROM survey WHERE is_real_test = "F"'''
     cs = g.db.cursor()
     cs.execute(query)
     data_survey = cs.fetchall()

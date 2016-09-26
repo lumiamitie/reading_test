@@ -11,6 +11,9 @@
         {% endif %}
         <br />
 
+        <hr>
+
+        <p><b>실험 점수</b></p>
         <table class="table">
             <thead>
                 <tr>
@@ -25,13 +28,63 @@
                 {% for answer in data['answer'] %}
                 <tr>
                     {% for value in answer %}
-                        <th>{{ value|string }}</th>
+                        <td>{{ value|string }}</td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
+        <hr>
+
+        <p><b>실험 시간</b></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>실험번호</th>
+                    <th>UUID</th>
+                    <th>지문종류</th>
+                    <th>총 제출 답안수</th>
+                    <th>소요시간(초)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in data['time'] %}
+                <tr>
+                    {% for value in answer %}
+                        <td>{{ value|string }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr>
+
+        <p><b>설문 결과</b></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>실험번호</th>
+                    <th>UUID</th>
+                    <th>01</th>
+                    <th>02</th>
+                    <th>03</th>
+                    <th>04</th>
+                    <th>05</th>
+                    <th>06</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in data['survey'] %}
+                <tr>
+                    {% for value in answer %}
+                        <td>{{ value|string }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
     </div>
 </div>
