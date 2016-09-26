@@ -12,8 +12,9 @@ def current_time():
 import MySQLdb
 @app.before_request
 def before_request():
-    g.db = MySQLdb.connect(user="miika", passwd="minho1234", db="reading_test", charset='utf8',
-                           cursorclass=MySQLdb.cursors.DictCursor)
+    # g.db = MySQLdb.connect(user="miika", passwd="minho1234", db="reading_test", charset='utf8',
+    #                        cursorclass=MySQLdb.cursors.DictCursor)
+    g.db = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
 
 @app.teardown_request
 def teardown_request(exception):
