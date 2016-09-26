@@ -14,7 +14,8 @@ import MySQLdb
 def before_request():
     # g.db = MySQLdb.connect(user="miika", passwd="minho1234", db="reading_test", charset='utf8',
     #                        cursorclass=MySQLdb.cursors.DictCursor)
-    g.db = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
+    g.db = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234','miika$reading_test',
+                           use_unicode=True,charset='UTF8')
 
 @app.teardown_request
 def teardown_request(exception):
@@ -61,7 +62,7 @@ def insert_survey(dict_values):
 def send_query(query):
     try:
         cs = g.db.cursor()
-        cs.execute("SET NAMES 'utf8'")
+        #cs.execute("SET NAMES 'utf8'")
         cs.execute(query)
         g.db.commit()
     except:
