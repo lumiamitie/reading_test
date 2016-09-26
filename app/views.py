@@ -75,7 +75,7 @@ def get_answer():
                     FROM answer_log as a 
                     JOIN real_answer as b 
                     ON (a.question = b.question)
-                    WHERE a.is_real_test = 'F') as c
+                    WHERE a.is_real_test = 'T') as c
                 GROUP BY c.exp_id, c.uuid, c.test_type;'''
     cs = g.db.cursor()
     cs.execute(query)
@@ -87,7 +87,7 @@ def get_time():
     query = '''SELECT exp_id, uuid, test_type, count(*) as log_cnt,
                       max(time) - min(time) as duration
                 FROM time_log
-                WHERE is_real_test = 'F'
+                WHERE is_real_test = 'T'
                 GROUP BY exp_id, uuid, test_type;'''
     cs = g.db.cursor()
     cs.execute(query)
@@ -97,7 +97,7 @@ def get_time():
 
 def get_survey():
     query = '''SELECT exp_id, uuid, survey01, survey02, survey03, survey04, survey05, survey06
-               FROM survey WHERE is_real_test = "F"'''
+               FROM survey WHERE is_real_test = "T"'''
     cs = g.db.cursor()
     cs.execute(query)
     data_survey = cs.fetchall()
@@ -105,7 +105,7 @@ def get_survey():
 
 
 # 실제 테스트에서는 T로 변경하고 진행하자
-IS_REAL_TEST = 'F'
+IS_REAL_TEST = 'T'
 
 
 
