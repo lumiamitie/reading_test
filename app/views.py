@@ -66,6 +66,43 @@ def send_query(query):
         # 로컬 실행
         print(query)
 
+
+# admin 페이지를 위해 데이터를 불러오는 함수
+def get_answer():
+    query = '''SELECT c.exp_id, c.uuid, c.test_type, count(*) as log_cnt,
+                      sum(if(c.answer = c.answer_value, 1, 0)) as answer_cnt
+                FROM (SELECT a.*, b.answer 
+                    FROM answer_log as a 
+                    JOIN real_answer as b 
+                    ON (a.question = b.question)
+                    WHERE a.is_real_test = 'F') as c
+                GROUP BY c.exp_id, c.uuid, c.test_type;'''
+    cs = g.db.cursor()
+    cs.execute(query)
+    data_answer = cs.fetchall()
+    return data_answer
+
+
+def get_time():
+    query = '''SELECT exp_id, uuid, test_type, count(*) as log_cnt,
+                      max(time) - min(time) as duration
+                FROM time_log
+                WHERE is_real_test = 'F'
+                GROUP BY exp_id, uuid, test_type;'''
+    cs = g.db.cursor()
+    cs.execute(query)
+    data_time = cs.fetchall()
+    return data_time
+
+
+def get_survey():
+    query = 'SELECT * FROM survey WHERE is_real_test = "F"'
+    cs = g.db.cursor()
+    cs.execute(query)
+    data_survey = cs.fetchall()
+    return data_survey
+
+
 # 실제 테스트에서는 T로 변경하고 진행하자
 IS_REAL_TEST = 'F'
 
@@ -888,7 +925,6 @@ def survey():
                                    s05=request.form['survey05'], s06=request.form['survey06'],
                                    end_time=current_time(), is_real=IS_REAL_TEST)
                 # 데이터 전송
-                # 여기만 쿼리가 안가서 컨넥션 한번 더 불러보자
                 send_query(insert_survey(data_survey))
                 
                 return redirect(url_for('complete'))
@@ -919,3 +955,10 @@ def complete():
 
     except:
         return redirect(url_for('index'))
+
+
+@app.route('/admin')
+def admin():
+    data = dict(answer=get_answer(), time=get_time(), survey=get_survey())
+    return render_template('admin.html', is_real=IS_REAL_TEST, data=data)
+

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% if is_real == 'F' %}
+            <p>테스트가 <b>중단</b> 되었습니다</p>
+        {% else %}
+            <p>테스트가 <b>진행중</b> 입니다</p>
+        {% endif %}
+        <br />
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>실험번호</th>
+                    <th>UUID</th>
+                    <th>지문종류</th>
+                    <th>총 제출 답안수</th>
+                    <th>정답개수</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in data['answer'] %}
+                <tr>
+                    {% for value in answer %}
+                        <th>{{ value|string }}</th>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+{% endblock %}
