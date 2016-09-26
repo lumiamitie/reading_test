@@ -61,6 +61,7 @@ def insert_survey(dict_values):
 def send_query(query):
     try:
         cs = g.db.cursor()
+        cs.execute("SET NAMES 'utf8'")
         cs.execute(query)
         g.db.commit()
     except:
