@@ -45,8 +45,7 @@ def insert_time(dict_values):
                         is_real=dict_values['is_real'])
 
 def insert_survey(dict_values):
-    query = '''INSERT INTO survey (uuid, exp_id, survey01, survey02, survey03, survey04, survey05, survey06, end_time, is_real_test)
-               VALUES ('{uuid}', '{exp_id}', '{s01}', '{s02}', '{s03}', '{s04}', '{s05}', {s06}, '{end_time}', '{is_real}');'''
+    query = '''INSERT INTO survey (uuid, exp_id, survey01, survey02, survey03, survey04, survey05, survey06, end_time, is_real_test) VALUES ('{uuid}', '{exp_id}', '{s01}', '{s02}', '{s03}', '{s04}', '{s05}', {s06}, '{end_time}', '{is_real}');'''
     return query.format(uuid=dict_values['uuid'],
                         exp_id=dict_values['exp_id'],
                         s01=dict_values['s01'],
