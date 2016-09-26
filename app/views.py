@@ -2,23 +2,24 @@ from flask import render_template, redirect, url_for, request, flash, session, g
 from app import app
 from uuid import uuid4
 import datetime
-# import MySQLdb
 
 # 현재 시각을 문자열로 반환
 def current_time():
     c_time = datetime.datetime.now()
     return c_time.strftime('%Y-%m-%d %H:%M:%S')
 
-# @app.before_request
-# def before_request():
-#     g.db = MySQLdb.connect(passwd="minho1234", db="reading_test", charset='utf8',
-#                            cursorclass=MySQLdb.cursors.DictCursor)
 
-# @app.teardown_request
-# def teardown_request(exception):
-#     db = getattr(g, 'db', None)
-#     if db is not None:
-#         db.close()
+import MySQLdb
+@app.before_request
+def before_request():
+    g.db = MySQLdb.connect(passwd="minho1234", db="reading_test", charset='utf8',
+                           cursorclass=MySQLdb.cursors.DictCursor)
+
+@app.teardown_request
+def teardown_request(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
 
 
 def insert_answer(dict_values):
@@ -57,10 +58,14 @@ def insert_survey(dict_values):
                         is_real=dict_values['is_real'])
 
 # 쿼리 날리기
-def send_query(con, query):
-    cs = con.cursor()
-    cs.execute(query)
-    con.commit()
+def send_query(query):
+    try:
+        cs = g.db.cursor()
+        cs.execute(query)
+        g.db.commit()
+    except:
+        # 로컬 실행
+        print(query)
 
 # 실제 테스트에서는 T로 변경하고 진행하자
 IS_REAL_TEST = 'F'
@@ -124,12 +129,12 @@ def exp1_a1_scroll():
             data_et = dict(common_dict, question='a1', category='end', time=current_time())
             data1 = dict(common_dict, question='a1_1', answer_value=int(a1_1))
             data2 = dict(common_dict, question='a1_2', answer_value=int(a1_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
 
             return redirect(url_for('exp1_a2_scroll'))
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a1_scroll.html')
     # 세션 정보 없을경우 index 페이지로 이동
     except:
@@ -146,20 +151,17 @@ def exp1_a2_scroll():
             a2_1 = request.form['answer_a2_1']
             a2_2 = request.form['answer_a2_2']
 
-            # data1 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
-            #             question='a2_1', answer_value=int(a2_1))
-            # data2 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
-            #             question='a2_2', answer_value=int(a2_2))
             data_et = dict(common_dict, question='a2', category='end', time=current_time())
             data1 = dict(common_dict, question='a2_1', answer_value=int(a2_1))
             data2 = dict(common_dict, question='a2_2', answer_value=int(a2_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
 
             return redirect(url_for('exp1_a3_scroll'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a2_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -176,20 +178,17 @@ def exp1_a3_scroll():
             a3_1 = request.form['answer_a3_1']
             a3_2 = request.form['answer_a3_2']
 
-            # data1 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
-            #             question='a3_1', answer_value=int(a3_1))
-            # data2 = dict(uuid = session['uuid'], exp_id = 'exp1', test_type = 'scroll', is_real = IS_REAL_TEST,
-            #             question='a3_2', answer_value=int(a3_2))
             data_et = dict(common_dict, question='a3', category='end', time=current_time())
             data1 = dict(common_dict, question='a3_1', answer_value=int(a3_1))
             data2 = dict(common_dict, question='a3_2', answer_value=int(a3_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
 
             return redirect(url_for('exp1_rest'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a3_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -225,13 +224,13 @@ def exp1_b1_page():
             data_et = dict(common_dict, question='b1', category='end', time=current_time())
             data1 = dict(common_dict, question='b1_1', answer_value=int(b1_1))
             data2 = dict(common_dict, question='b1_2', answer_value=int(b1_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
 
             return redirect(url_for('exp1_b2_page'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b1_page.html')
     except:
         return redirect(url_for('index'))
@@ -255,12 +254,12 @@ def exp1_b2_page():
             data_et = dict(common_dict, question='b2', category='end', time=current_time())
             data1 = dict(common_dict, question='b2_1', answer_value=int(b2_1))
             data2 = dict(common_dict, question='b2_2', answer_value=int(b2_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp1_b3_page'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b2_page.html')
     except:
         return redirect(url_for('index'))
@@ -284,12 +283,12 @@ def exp1_b3_page():
             data_et = dict(common_dict, question='b3', category='end', time=current_time())
             data1 = dict(common_dict, question='b3_1', answer_value=int(b3_1))
             data2 = dict(common_dict, question='b3_2', answer_value=int(b3_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp1_outro'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b3_page.html')
     except:
         return redirect(url_for('index'))
@@ -338,12 +337,12 @@ def exp2_a1_page():
             data_et = dict(common_dict, question='a1', category='end', time=current_time())
             data1 = dict(common_dict, question='a1_1', answer_value=int(a1_1))
             data2 = dict(common_dict, question='a1_2', answer_value=int(a1_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp2_a2_page'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a1_page.html')
     except:
         return redirect(url_for('index'))
@@ -367,12 +366,12 @@ def exp2_a2_page():
             data_et = dict(common_dict, question='a2', category='end', time=current_time())
             data1 = dict(common_dict, question='a2_1', answer_value=int(a2_1))
             data2 = dict(common_dict, question='a2_2', answer_value=int(a2_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp2_a3_page'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a2_page.html')
     except:
         return redirect(url_for('index'))
@@ -396,9 +395,9 @@ def exp2_a3_page():
             data_et = dict(common_dict, question='a3', category='end', time=current_time())
             data1 = dict(common_dict, question='a3_1', answer_value=int(a3_1))
             data2 = dict(common_dict, question='a3_2', answer_value=int(a3_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp2_rest'))
 
         return render_template('a3_page.html')
@@ -436,12 +435,12 @@ def exp2_b1_scroll():
             data_et = dict(common_dict, question='b1', category='end', time=current_time())
             data1 = dict(common_dict, question='b1_1', answer_value=int(b1_1))
             data2 = dict(common_dict, question='b1_2', answer_value=int(b1_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp2_b2_scroll'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b1_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -465,12 +464,12 @@ def exp2_b2_scroll():
             data_et = dict(common_dict, question='b2', category='end', time=current_time())
             data1 = dict(common_dict, question='b2_1', answer_value=int(b2_1))
             data2 = dict(common_dict, question='b2_2', answer_value=int(b2_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp2_b3_scroll'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b2_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -494,12 +493,12 @@ def exp2_b3_scroll():
             data_et = dict(common_dict, question='b3', category='end', time=current_time())
             data1 = dict(common_dict, question='b3_1', answer_value=int(b3_1))
             data2 = dict(common_dict, question='b3_2', answer_value=int(b3_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp2_outro'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b3_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -551,12 +550,12 @@ def exp3_b1_scroll():
             data_et = dict(common_dict, question='b1', category='end', time=current_time())
             data1 = dict(common_dict, question='b1_1', answer_value=int(b1_1))
             data2 = dict(common_dict, question='b1_2', answer_value=int(b1_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp3_b2_scroll'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b1_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -580,12 +579,12 @@ def exp3_b2_scroll():
             data_et = dict(common_dict, question='b2', category='end', time=current_time())
             data1 = dict(common_dict, question='b2_1', answer_value=int(b2_1))
             data2 = dict(common_dict, question='b2_2', answer_value=int(b2_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp3_b3_scroll'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b2_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -609,12 +608,12 @@ def exp3_b3_scroll():
             data_et = dict(common_dict, question='b3', category='end', time=current_time())
             data1 = dict(common_dict, question='b3_1', answer_value=int(b3_1))
             data2 = dict(common_dict, question='b3_2', answer_value=int(b3_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp3_rest'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b3_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -653,12 +652,12 @@ def exp3_a1_page():
             data_et = dict(common_dict, question='a1', category='end', time=current_time())
             data1 = dict(common_dict, question='a1_1', answer_value=int(a1_1))
             data2 = dict(common_dict, question='a1_2', answer_value=int(a1_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp3_a2_page'))
         
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a1_page.html')
     except:
         return redirect(url_for('index'))
@@ -682,12 +681,12 @@ def exp3_a2_page():
             data_et = dict(common_dict, question='a2', category='end', time=current_time())
             data1 = dict(common_dict, question='a2_1', answer_value=int(a2_1))
             data2 = dict(common_dict, question='a2_2', answer_value=int(a2_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp3_a3_page'))
         
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a2_page.html')
     except:
         return redirect(url_for('index'))
@@ -711,12 +710,12 @@ def exp3_a3_page():
             data_et = dict(common_dict, question='a3', category='end', time=current_time())
             data1 = dict(common_dict, question='a3_1', answer_value=int(a3_1))
             data2 = dict(common_dict, question='a3_2', answer_value=int(a3_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp3_outro'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a3_page.html')
     except:
         return redirect(url_for('index'))
@@ -769,12 +768,12 @@ def exp4_b1_page():
             data_et = dict(common_dict, question='b1', category='end', time=current_time())
             data1 = dict(common_dict, question='b1_1', answer_value=int(b1_1))
             data2 = dict(common_dict, question='b1_2', answer_value=int(b1_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp4_b2_page'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b1_page.html')
 
     except:
@@ -801,12 +800,12 @@ def exp4_b2_page():
             data_et = dict(common_dict, question='b2', category='end', time=current_time())
             data1 = dict(common_dict, question='b2_1', answer_value=int(b2_1))
             data2 = dict(common_dict, question='b2_2', answer_value=int(b2_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp4_b3_page'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b2_page.html')
     except:
         return redirect(url_for('index'))
@@ -830,12 +829,12 @@ def exp4_b3_page():
             data_et = dict(common_dict, question='b3', category='end', time=current_time())
             data1 = dict(common_dict, question='b3_1', answer_value=int(b3_1))
             data2 = dict(common_dict, question='b3_2', answer_value=int(b3_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp4_rest'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('b3_page.html')
     except:
         return redirect(url_for('index'))
@@ -872,12 +871,12 @@ def exp4_a1_scroll():
             data_et = dict(common_dict, question='a1', category='end', time=current_time())
             data1 = dict(common_dict, question='a1_1', answer_value=int(a1_1))
             data2 = dict(common_dict, question='a1_2', answer_value=int(a1_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp4_a2_scroll'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a1_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -901,12 +900,12 @@ def exp4_a2_scroll():
             data_et = dict(common_dict, question='a2', category='end', time=current_time())
             data1 = dict(common_dict, question='a2_1', answer_value=int(a2_1))
             data2 = dict(common_dict, question='a2_2', answer_value=int(a2_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp4_a3_scroll'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a2_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -930,12 +929,12 @@ def exp4_a3_scroll():
             data_et = dict(common_dict, question='a3', category='end', time=current_time())
             data1 = dict(common_dict, question='a3_1', answer_value=int(a3_1))
             data2 = dict(common_dict, question='a3_2', answer_value=int(a3_2))
-            print(data1)
-            print(data2)
-            print(data_et)
+            send_query(query=insert_answer(data1))
+            send_query(query=insert_answer(data2))
+            send_query(query=insert_time(data_et))
             return redirect(url_for('exp4_outro'))
 
-        print(data_st)
+        send_query(query=insert_time(data_st))
         return render_template('a3_scroll.html')
     except:
         return redirect(url_for('index'))
@@ -973,8 +972,10 @@ def survey():
                                    s03=request.form['survey03'], s04=request.form['survey04'], 
                                    s05=request.form['survey05'], s06=request.form['survey06'],
                                    end_time=current_time(), is_real=IS_REAL_TEST)
-                print(data_survey)
+                # 데이터 전송
+                send_query(insert_survey(data_survey))
                 return redirect(url_for('complete'))
+
             # 텍스트박스는 항상 POST로 전달되는 것 같다
             # 따라서 기본값으로 오는 경우에는 flash를 띄우지 않도록 한다
             elif len(request.form) == 2 and request.form['survey03'] == '' and request.form['survey06'] == '':
