@@ -20,8 +20,7 @@ def before_request():
 def teardown_request(exception):
     db = getattr(g, 'db', None)
     if db is not None:
-        try:
-            db.close()
+        db.close()
 
 
 def insert_answer(dict_values):
