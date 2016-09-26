@@ -976,16 +976,19 @@ def survey():
                 # 여기만 쿼리가 안가서 컨넥션 한번 더 불러보자
                 #send_query(insert_survey(data_survey))
                 #try:
-                print('prepare connections')
-                db_con = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
+                #print('prepare connections')
+                #db_con = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
+
                 print('prepare cursor')
-                cs = db_con.cursor()
+                #cs = db_con.cursor()
+                cs = g.db.cursor()
                 print('prepare query execution')
                 cs.execute(insert_survey(data_survey))
                 print('prepare commit')
-                db_con.commit()
+                #db_con.commit()
+                g.db.commit()
                 print('prepare conn close')
-                db_con.close()
+                #db_con.close()
                 # except:
                 #     print(insert_survey(data_survey))
                 return redirect(url_for('complete'))
