@@ -967,13 +967,16 @@ def survey():
             print(request.form)
             # 설문이 완료되면 완료페이지로 보낸다
             if len(request.form) == 6:
-                data_survey = dict(uuid = session['uuid'], exp_id = 'exp2', 
+                data_survey = dict(uuid = session['uuid'], exp_id = 'exp' + str(test_no), 
                                    s01=request.form['survey01'], s02=request.form['survey02'], 
                                    s03=request.form['survey03'], s04=request.form['survey04'], 
                                    s05=request.form['survey05'], s06=request.form['survey06'],
                                    end_time=current_time(), is_real=IS_REAL_TEST)
                 # 데이터 전송
+                # 여기만 쿼리가 안가서 컨넥션 한번 더 불러보자
+                g.db = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234',"miika$reading_test")
                 send_query(insert_survey(data_survey))
+                g.db.close()
                 return redirect(url_for('complete'))
 
             # 텍스트박스는 항상 POST로 전달되는 것 같다
