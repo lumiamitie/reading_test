@@ -105,7 +105,7 @@ def get_survey():
 
 
 # 실제 테스트에서는 T로 변경하고 진행하자
-IS_REAL_TEST = 'T'
+IS_REAL_TEST = 'F'
 
 
 
