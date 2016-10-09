@@ -76,6 +76,7 @@ def get_answer():
                     JOIN real_answer as b 
                     ON (a.question = b.question)
                     WHERE a.is_real_test = 'T') as c
+                WHERE c.uuid in (SELECT uuid FROM survey WHERE date(end_time) = date(now()))
                 GROUP BY c.exp_id, c.uuid, c.test_type;'''
     cs = g.db.cursor()
     cs.execute(query)
@@ -88,6 +89,7 @@ def get_time():
                       max(time) - min(time) as duration
                 FROM time_log
                 WHERE is_real_test = 'T'
+                      and uuid in (SELECT uuid FROM survey WHERE date(end_time) = '2016-10-04')
                 GROUP BY exp_id, uuid, test_type;'''
     cs = g.db.cursor()
     cs.execute(query)
@@ -97,7 +99,8 @@ def get_time():
 
 def get_survey():
     query = '''SELECT exp_id, uuid, survey01, survey02, survey03, survey04, survey05, survey06
-               FROM survey WHERE is_real_test = "T"'''
+               FROM survey 
+               WHERE is_real_test = "T" and date(end_time) = date(now())'''
     cs = g.db.cursor()
     cs.execute(query)
     data_survey = cs.fetchall()
