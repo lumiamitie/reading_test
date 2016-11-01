@@ -1,7 +1,9 @@
-from flask import render_template, redirect, url_for, request, flash, session, g
+from flask import render_template, redirect, url_for, request, flash, session, g, send_file
 from app import app
 from uuid import uuid4
 import datetime
+from io import StringIO, BytesIO
+import csv
 
 # 현재 시각을 문자열로 반환
 def current_time():
@@ -12,8 +14,7 @@ def current_time():
 import MySQLdb
 @app.before_request
 def before_request():
-    g.db = MySQLdb.connect('miika.mysql.pythonanywhere-services.com','miika','minho1234','miika$reading_test',
-                           use_unicode=True, charset='UTF8')
+    g.db = MySQLdb.connect('host','id','pw','dbname', use_unicode=True, charset='UTF8')
 
 @app.teardown_request
 def teardown_request(exception):
@@ -108,7 +109,7 @@ def get_survey():
 
 
 # 실제 테스트에서는 T로 변경하고 진행하자
-IS_REAL_TEST = 'T'
+IS_REAL_TEST = 'F'
 
 
 
@@ -966,3 +967,8 @@ def admin():
     data = dict(answer=get_answer(), time=get_time(), survey=get_survey())
     return render_template('admin.html', is_real=IS_REAL_TEST, data=data)
 
+
+# @app.route('/admin/download')
+# def download():
+#     query = ''
+    
